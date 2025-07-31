@@ -63,6 +63,9 @@ def onMouse(event, x, y, flags, param):
             # 번호판 이미지를 그레이스케일로 변환
             gray_plate = cv2.cvtColor(result, cv2.COLOR_BGR2GRAY)
 
+            # 바이레터럴 블러 적용
+            blur = cv2.bilateralFilter(gray_plate, 9, 75, 75)
+
             # 파일 이름을 타임스탬프로 생성
             timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
             filename = f"{SAVE_PATH}/plate_{timestamp}.png"
