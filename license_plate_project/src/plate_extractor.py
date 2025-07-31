@@ -9,6 +9,7 @@ SAVE_PATH = '../extracted_plates'
 # 이미지 불러오기
 img = cv2.imread('../img/car_01.jpg')
 draw = img.copy()
+#img_files = [f"car_{i:02d}.jpg" for i in range(1,6)]
 
 # 클린한 점의 좌표를 저장할 배열과 개수 카운터
 pts = np.zeros((4, 2), dtype=np.float32)
