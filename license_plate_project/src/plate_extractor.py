@@ -18,5 +18,17 @@ def onMouse(event, x, y, flags, param):     # 마우스 이벤트 콜백 함수 
         pts[pts_cnt] = [x, y]       # 마우스 좌표 저장
         pts_cnt += 1
 
+        if pts_cnt == 4:
+            sm = pts.sum(axis = 1)
+            diff = np.diff(pts, axis = 1)
+
+            topLeft = pts[np.argmin(sm)]
+            bottomRight = pts[np.argmax(sm)]
+            topRight = pts[np.argmin(diff)]
+            bottomLeft = pts[np.argmax(diff)]
+            
+            # 정렬된 좌표 배열 생성
+            rect = np.array([topLeft, topRight, bottomRight, bottomLeft], dtype = np.float32)
+
 cv2.namedWindow('License Plate Extractor')
 cv2.setMouseCallback('License Plate Extractor', onMouse)
