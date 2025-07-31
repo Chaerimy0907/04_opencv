@@ -31,6 +31,15 @@ def find_contours_in_plate(thresh_plate):
     colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0),
               (255, 0, 255), (0, 255, 255), (128, 0, 128), (255, 165, 0)]
 
+    filtered_contours = []
+    for i, contour in enumerate(contours):
+        area = cv2.contourArea(contour)
+        x, y, w, h = cv2.boundingRect(contour)
+        aspect_ratio = w / h if h > 0 else 0
+
+        if 30 < area < 5000 and 0.1 < aspect_ratio < 1.5 and 10 < h < 200:
+            filtered_contours.append(contour)
+
     for i, contour in enumerate(contours):
         color = colors[i % len(colors)]  # 색상 순환
         cv2.drawContours(contour_image, [contour], -1, color, 2)
@@ -44,8 +53,7 @@ def find_contours_in_plate(thresh_plate):
                     cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1)
         
         # 결과 시각화
-        plt.figure(figsize = (12, 4))
-
+        plt.figure(figsize = (10, 4))
         plt.subplot(1, 2, 1)
         plt.imshow(thresh_plate, cmap='gray')
         plt.title("Binary Plate")
@@ -111,7 +119,7 @@ def onMouse(event, x, y, flags, param):
             _, thresh = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
             find_contours_in_plate(thresh)
-            
+
             # 파일 이름을 타임스탬프로 생성
             timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
             filename_Original = f"{ORIGINAL_PATH}/plate_{timestamp}.png"
