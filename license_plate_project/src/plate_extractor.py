@@ -137,7 +137,7 @@ def onMouse(event, x, y, flags, param):
             print(f"저장 완료 : {filename_thresh}")
 
             # 추출된 번호판 이미지를 새 창에 표시
-            cv2.imshow("Extracted Plate", thresh)
+            #cv2.imshow("Extracted Plate", thresh)
 
             # 다음 이미지로 이동
             current_idx += 1
@@ -166,7 +166,7 @@ cv2.setMouseCallback('License Plate Extractor', onMouse)
 
 # 메인 루프
 while True:
-    #cv2.imshow("License Plate Extractor", draw)     # 점이 찍힌 이미지를 표시
+    cv2.imshow("License Plate Extractor", draw)     # 점이 찍힌 이미지를 표시
     key = cv2.waitKey(1) & 0xFF
 
     # q를 누르면 종료
