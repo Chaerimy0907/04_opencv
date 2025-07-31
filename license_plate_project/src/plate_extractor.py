@@ -67,21 +67,27 @@ def onMouse(event, x, y, flags, param):
             blur = cv2.bilateralFilter(gray_plate, 9, 75, 75)
 
             # 캐니 엣지 적용
-            edges = cv2.Canny(gray_plate, 100, 200)
+            edges = cv2.Canny(blur, 100, 200)
 
             # 경계 강조 (이진화)
             _, thresh = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
-            # 파일 이름을 타임스탬프로 생성
+            ## 파일 이름을 타임스탬프로 생성
+            #timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+            #filename = f"{SAVE_PATH}/plate_{timestamp}.png"
+
+            ## 추출된 번호판 이미지를 파일로 저장
+            #cv2.imwrite(filename, result)
+            #print(f"저장 완료 : {filename}")
+
+            # 필터링을 거친 최종 추출 번호판 이미지 저장
             timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
             filename = f"{SAVE_PATH}/plate_{timestamp}.png"
-
-            # 추출된 번호판 이미지를 파일로 저장
-            cv2.imwrite(filename, result)
+            cv2.imwrite(filename, thresh)
             print(f"저장 완료 : {filename}")
 
             # 추출된 번호판 이미지를 새 창에 표시
-            cv2.imshow("Extracted Plate", result)
+            cv2.imshow("Extracted Plate", thresh)
 
             # 다음 이미지로 이동
             current_idx += 1
