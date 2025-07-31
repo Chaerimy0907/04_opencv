@@ -63,6 +63,18 @@ def onMouse(event, x, y, flags, param):
             # 다음 클릭을 위해 점 개수와 이미지 초기화
             pts_cnt = 0
             draw = img.copy()
-
+    
+# 윈도우 생성 및 마우스 콜백 등록
 cv2.namedWindow('License Plate Extractor')
 cv2.setMouseCallback('License Plate Extractor', onMouse)
+
+# 메인 루프
+while True:
+    cv2.imshow("License Plate Extractor", draw)     # 점이 찍힌 이미지를 표시
+    key = cv2.waitKey(1) & 0xFF
+
+    # q를 누르면 종료
+    if key == ord('q'):
+        break
+
+cv2.destroyAllWindows()
