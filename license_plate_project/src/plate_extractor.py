@@ -69,6 +69,9 @@ def onMouse(event, x, y, flags, param):
             # 캐니 엣지 적용
             edges = cv2.Canny(gray_plate, 100, 200)
 
+            # 경계 강조 (이진화)
+            _, thresh = cv2.threshold(bilateral, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
             # 파일 이름을 타임스탬프로 생성
             timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
             filename = f"{SAVE_PATH}/plate_{timestamp}.png"
