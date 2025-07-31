@@ -66,6 +66,9 @@ def onMouse(event, x, y, flags, param):
             # 바이레터럴 블러 적용
             blur = cv2.bilateralFilter(gray_plate, 9, 75, 75)
 
+            # 캐니 엣지 적용
+            edges = cv2.Canny(gray_plate, 100, 200)
+
             # 파일 이름을 타임스탬프로 생성
             timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
             filename = f"{SAVE_PATH}/plate_{timestamp}.png"
