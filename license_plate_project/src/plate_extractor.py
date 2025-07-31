@@ -42,6 +42,23 @@ def find_contours_in_plate(thresh_plate):
             cy = int(M["m01"] / M["m00"])
         cv2.putText(contour_image, str(i + 1), (cx - 5, cy + 5),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1)
+        
+        # 결과 시각화
+        plt.figure(figsize = (12, 4))
+
+        plt.subplot(1, 2, 1)
+        plt.imshow(thresh_plate, cmap='gray')
+        plt.title("Binary Plate")
+        plt.axis("off")
+
+        plt.subplot(1, 2, 2)
+        plt.imshow(cv2.cvtColor(contour_image, cv2.COLOR_BGR2RGB))
+        plt.title(f"Contours Detected : {len(contours)}")
+        plt.axis("off")
+
+        plt.show()
+
+        return contours, contour_image
 
 # 마우스 이벤트 콜백 함수
 def onMouse(event, x, y, flags, param):
@@ -93,6 +110,8 @@ def onMouse(event, x, y, flags, param):
             # 경계 강조 (이진화)
             _, thresh = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
+            find_contours_in_plate(thresh)
+            
             # 파일 이름을 타임스탬프로 생성
             timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
             filename_Original = f"{ORIGINAL_PATH}/plate_{timestamp}.png"
