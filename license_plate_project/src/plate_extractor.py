@@ -32,25 +32,28 @@ def find_contours_in_plate(thresh_plate):
               (255, 0, 255), (0, 255, 255), (128, 0, 128), (255, 165, 0)]
 
     filtered_contours = []
-    for i, contour in enumerate(contours):
+    for contour in contours:
         area = cv2.contourArea(contour)
         x, y, w, h = cv2.boundingRect(contour)
-        aspect_ratio = w / h if h > 0 else 0
 
-        if 30 < area < 5000 and 0.1 < aspect_ratio < 1.5 and 10 < h < 200:
+        if area > 20 and h > 10:
             filtered_contours.append(contour)
+    filtered_contours.sort(key=lambda c: cv2.boundingRect(c)[0])
 
-    for i, contour in enumerate(contours):
+    for i, contour in enumerate(filtered_contours):
         color = colors[i % len(colors)]  # 색상 순환
-        cv2.drawContours(contour_image, [contour], -1, color, 2)
+        x, y, w, h = cv2.boundingRect(contour)
+        cv2.rectangle(contour_image, (x, y), (x+w, y+h), color, 1)
+        cv2.putText(contour_image, str(i+1), (x, y-5),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1)
 
         # 윤곽선 번호 표시
-        M = cv2.moments(contour)
-        if M["m00"] != 0:
-            cx = int(M["m10"] / M["m00"])
-            cy = int(M["m01"] / M["m00"])
-        cv2.putText(contour_image, str(i + 1), (cx - 5, cy + 5),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1)
+        #M = cv2.moments(contour)
+        #if M["m00"] != 0:
+        #    cx = int(M["m10"] / M["m00"])
+        #    cy = int(M["m01"] / M["m00"])
+        #cv2.putText(contour_image, str(i + 1), (cx - 5, cy + 5),
+        #            cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1)
         
         # 결과 시각화
         plt.figure(figsize = (10, 4))
