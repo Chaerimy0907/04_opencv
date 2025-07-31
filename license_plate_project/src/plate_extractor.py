@@ -66,9 +66,6 @@ def onMouse(event, x, y, flags, param):
             # 바이레터럴 블러 적용
             blur = cv2.bilateralFilter(gray_plate, 9, 75, 75)
 
-            # 캐니 엣지 적용
-            edges = cv2.Canny(blur, 100, 200)
-
             # 경계 강조 (이진화)
             _, thresh = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
