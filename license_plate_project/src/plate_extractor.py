@@ -2,7 +2,8 @@ import cv2
 import numpy as np
 import datetime
 
-# 저장 폴더 경로 설정
+# 이미지 폴더 및 저장 폴더 경로 설정
+IMG_PATH = '../img'
 SAVE_PATH = '../extracted_plates'
 
 # 이미지 불러오기
@@ -15,12 +16,12 @@ pts_cnt = 0
 
 # 마우스 이벤트 콜백 함수
 def onMouse(event, x, y, flags, param):
-    global pts_cnt
+    global pts_cnt, draw, pts
     
     # 마우스 왼쪽 버튼 클릭 시 동작
     if event == cv2.EVENT_LBUTTONDOWN:
         # 클릭한 좌표에 빨간 점 표시
-        cv2.circle(draw, (x, y), 5, (0, 0, 255), -1)
+        cv2.circle(draw, (x, y), 10, (0, 0, 255), -1)
         
         # 클릭한 좌표를 저장
         pts[pts_cnt] = [x, y]
@@ -38,13 +39,18 @@ def onMouse(event, x, y, flags, param):
             bottomLeft = pts[np.argmax(diff)]   # x-y 최대값 -> 좌하단
             
             # 정렬된 좌표 배열 생성
-            pts1 = np.array([topLeft, topRight, bottomRight, bottomLeft], dtype = np.float32)
+            rect = np.array([topLeft, topRight, bottomRight, bottomLeft], dtype=np.float32)
 
+            if rect.shape != (4, 2):
+                pts_cnt = 0
+                draw = img.copy()
+                return
+            
             width, height = 300, 150
-            pts2 = np.array([[0, 0], [width-1, 0], [width-1, height-1], [0, height-1]])
+            dst_pts = np.array([[0, 0], [width-1, 0], [width-1, height-1], [0, height-1]])
 
             # 원근 변환 행렬 계산
-            mtrx = cv2.getPerspectiveTransform(pts1, pts2)
+            mtrx = cv2.getPerspectiveTransform(rect, dst_pts)
 
             # 원근 변환 적용
             result = cv2.warpPerspective(img, mtrx, (width, height))
