@@ -5,7 +5,8 @@ import os
 
 # 이미지 폴더 및 저장 폴더 경로 설정
 IMG_PATH = '../img'
-SAVE_PATH = '../extracted_plates'
+ORIGINAL_PATH = '../extracted_plates'
+PROCESSED_PATH = '../processed_plates'
 
 # 이미지 불러오기
 #img = cv2.imread('../img/car_05.jpg')
@@ -69,19 +70,19 @@ def onMouse(event, x, y, flags, param):
             # 경계 강조 (이진화)
             _, thresh = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
-            ## 파일 이름을 타임스탬프로 생성
-            #timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-            #filename = f"{SAVE_PATH}/plate_{timestamp}.png"
+            # 파일 이름을 타임스탬프로 생성
+            timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename_Original = f"{ORIGINAL_PATH}/plate_{timestamp}.png"
 
-            ## 추출된 번호판 이미지를 파일로 저장
-            #cv2.imwrite(filename, result)
-            #print(f"저장 완료 : {filename}")
+            # 추출된 번호판 이미지를 파일로 저장
+            cv2.imwrite(filename_Original, result)
+            print(f"저장 완료 : {filename_Original}")
 
             # 필터링을 거친 최종 추출 번호판 이미지 저장
-            timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-            filename = f"{SAVE_PATH}/plate_{timestamp}.png"
-            cv2.imwrite(filename, thresh)
-            print(f"저장 완료 : {filename}")
+            #timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename_thresh = f"{PROCESSED_PATH}/plate_thresh{timestamp}.png"
+            cv2.imwrite(filename_thresh, thresh)
+            print(f"저장 완료 : {filename_thresh}")
 
             # 추출된 번호판 이미지를 새 창에 표시
             cv2.imshow("Extracted Plate", thresh)
