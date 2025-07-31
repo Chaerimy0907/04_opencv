@@ -79,8 +79,7 @@ def onMouse(event, x, y, flags, param):
             print(f"저장 완료 : {filename_Original}")
 
             # 필터링을 거친 최종 추출 번호판 이미지 저장
-            #timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-            filename_thresh = f"{PROCESSED_PATH}/plate_thresh{timestamp}.png"
+            filename_thresh = f"{PROCESSED_PATH}/plate_thresh_{timestamp}.png"
             cv2.imwrite(filename_thresh, thresh)
             print(f"저장 완료 : {filename_thresh}")
 
