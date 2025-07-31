@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import datetime
 import os
+import matplotlib.pyplot as plt
 
 # 이미지 폴더 및 저장 폴더 경로 설정
 IMG_PATH = '../img'
@@ -19,6 +20,16 @@ img_files = [f"car_{i:02d}.jpg" for i in range(1,6)]
 pts = np.zeros((4, 2), dtype=np.float32)
 pts_cnt = 0
 current_idx = 0     # 현재 작업 중인 이미지 번호
+
+# 윤곽선 검출 함수
+def find_contours_in_plate(thresh_plate):
+    
+    # 윤곽선 검출
+    contours, _ = cv2.findContours(thresh_plate, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contour_image = cv2.cvtColor(thresh_plate, cv2.COLOR_GRAY2BGR)
+
+    colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0),
+              (255, 0, 255), (0, 255, 255), (128, 0, 128), (255, 165, 0)]
 
 # 마우스 이벤트 콜백 함수
 def onMouse(event, x, y, flags, param):
