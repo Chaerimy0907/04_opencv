@@ -31,6 +31,18 @@ def find_contours_in_plate(thresh_plate):
     colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0),
               (255, 0, 255), (0, 255, 255), (128, 0, 128), (255, 165, 0)]
 
+    for i, contour in enumerate(contours):
+        color = colors[i % len(colors)]  # 색상 순환
+        cv2.drawContours(contour_image, [contour], -1, color, 2)
+
+        # 윤곽선 번호 표시
+        M = cv2.moments(contour)
+        if M["m00"] != 0:
+            cx = int(M["m10"] / M["m00"])
+            cy = int(M["m01"] / M["m00"])
+        cv2.putText(contour_image, str(i + 1), (cx - 5, cy + 5),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1)
+
 # 마우스 이벤트 콜백 함수
 def onMouse(event, x, y, flags, param):
     global pts_cnt, draw, pts, img, current_idx
