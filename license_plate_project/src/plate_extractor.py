@@ -60,6 +60,9 @@ def onMouse(event, x, y, flags, param):
             # 원근 변환 적용
             result = cv2.warpPerspective(img, mtrx, (width, height))
 
+            # 번호판 이미지를 그레이스케일로 변환
+            gray_plate = cv2.cvtColor(result, cv2.COLOR_BGR2GRAY)
+
             # 파일 이름을 타임스탬프로 생성
             timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
             filename = f"{SAVE_PATH}/plate_{timestamp}.png"
