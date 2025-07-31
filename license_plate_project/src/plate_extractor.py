@@ -48,12 +48,12 @@ def find_contours_in_plate(thresh_plate):
                     cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1)
 
         # 윤곽선 번호 표시
-        #M = cv2.moments(contour)
-        #if M["m00"] != 0:
-        #    cx = int(M["m10"] / M["m00"])
-        #    cy = int(M["m01"] / M["m00"])
-        #cv2.putText(contour_image, str(i + 1), (cx - 5, cy + 5),
-        #            cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1)
+        M = cv2.moments(contour)
+        if M["m00"] != 0:
+            cx = int(M["m10"] / M["m00"])
+            cy = int(M["m01"] / M["m00"])
+        cv2.putText(contour_image, str(i + 1), (cx - 5, cy + 5),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1)
         
         # 결과 시각화
         plt.figure(figsize = (10, 4))
@@ -166,7 +166,7 @@ cv2.setMouseCallback('License Plate Extractor', onMouse)
 
 # 메인 루프
 while True:
-    cv2.imshow("License Plate Extractor", draw)     # 점이 찍힌 이미지를 표시
+    #cv2.imshow("License Plate Extractor", draw)     # 점이 찍힌 이미지를 표시
     key = cv2.waitKey(1) & 0xFF
 
     # q를 누르면 종료
