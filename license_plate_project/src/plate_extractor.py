@@ -49,5 +49,20 @@ def onMouse(event, x, y, flags, param):
             # 원근 변환 적용
             result = cv2.warpPerspective(img, mtrx, (width, height))
 
+            # 파일 이름을 타임스탬프로 생성
+            timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"{SAVE_PATH}/plate_{timestamp}.png"
+
+            # 추출된 번호판 이미지를 파일로 저장
+            cv2.imwrite(filename, result)
+            print(f"저장 완료 : {filename}")
+
+            # 추출된 번호판 이미지를 새 창에 표시
+            cv2.imshow("Extracted Plate", result)
+
+            # 다음 클릭을 위해 점 개수와 이미지 초기화
+            pts_cnt = 0
+            draw = img.copy()
+
 cv2.namedWindow('License Plate Extractor')
 cv2.setMouseCallback('License Plate Extractor', onMouse)
