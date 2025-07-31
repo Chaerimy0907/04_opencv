@@ -47,7 +47,7 @@ def onMouse(event, x, y, flags, param):
                 return
             
             width, height = 300, 150
-            dst_pts = np.array([[0, 0], [width-1, 0], [width-1, height-1], [0, height-1]])
+            dst_pts = np.array([[0, 0], [width-1, 0], [width-1, height-1], [0, height-1]], dtype=np.float32)
 
             # 원근 변환 행렬 계산
             mtrx = cv2.getPerspectiveTransform(rect, dst_pts)
