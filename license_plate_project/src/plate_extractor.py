@@ -7,7 +7,7 @@ IMG_PATH = '../img'
 SAVE_PATH = '../extracted_plates'
 
 # 이미지 불러오기
-img = cv2.imread('../img/car_01.jpg')
+img = cv2.imread('../img/car_05.jpg')
 draw = img.copy()
 #img_files = [f"car_{i:02d}.jpg" for i in range(1,6)]
 
@@ -22,7 +22,7 @@ def onMouse(event, x, y, flags, param):
     # 마우스 왼쪽 버튼 클릭 시 동작
     if event == cv2.EVENT_LBUTTONDOWN:
         # 클릭한 좌표에 빨간 점 표시
-        cv2.circle(draw, (x, y), 10, (0, 0, 255), -1)
+        cv2.circle(draw, (x, y), 5, (0, 0, 255), -1)
         
         # 클릭한 좌표를 저장
         pts[pts_cnt] = [x, y]
